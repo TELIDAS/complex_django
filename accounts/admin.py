@@ -3,8 +3,8 @@ from import_export.admin import ImportExportModelAdmin
 from . import models
 
 
-class DomainAdminPanel(ImportExportModelAdmin, admin.ModelAdmin):
+class UserAdminPanel(ImportExportModelAdmin, admin.ModelAdmin):
     list_display = ("username", "email")
 
 
-admin.site.register(models.User, DomainAdminPanel)
+admin.site.register(models.User, UserAdminPanel)
