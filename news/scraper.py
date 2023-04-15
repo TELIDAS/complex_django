@@ -1,7 +1,10 @@
+from asgiref.sync import sync_to_async
 from parsel import Selector
 import asyncio
 import httpx
+
 from server.settings import DEFAULT_HEADERS
+from news.models import News
 
 
 class NewsScraper:
@@ -13,7 +16,7 @@ class NewsScraper:
 
     async def get_url(self, client, url):
         response = await client.get(url)
-        await self.save_data(response.text)
+        await self.parse_links(response.text)
         return response
 
     async def parse_data(self):
@@ -25,11 +28,16 @@ class NewsScraper:
             news_gather = await asyncio.gather(*tasks)
             await client.aclose()
 
-    async def save_data(self, content):
+    async def parse_links(self, content):
         tree = Selector(text=content)
-        url = tree.xpath(self.NEWS_LINK_XPATH).extract()
-        print(f'url: {url}')
-        print(f'len_url: {(len(url))}')
+        urls = tree.xpath(self.NEWS_LINK_XPATH).extract()
+        print(f'url: {urls}')
+        print(f'len_url: {(len(urls))}')
+        await self.save_data(urls)
+
+    @sync_to_async
+    def save_data(self, urls):
+        News.objects.bulk_create([News(**{'link': url}) for url in urls])
 
     async def main(self):
         await self.parse_data()

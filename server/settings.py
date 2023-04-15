@@ -21,7 +21,7 @@ INSTALLED_APPS = [
     'rest_framework',
 
     'accounts',
-    'news'
+    'news',
 ]
 
 REST_FRAMEWORK = {
