@@ -38,3 +38,4 @@ class NewsScraper:
 if __name__ == "__main__":
     scraper = NewsScraper()
     asyncio.run(scraper.main())
+
