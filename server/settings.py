@@ -22,6 +22,7 @@ INSTALLED_APPS = [
 
     'accounts',
     'news',
+    'bookstore',
 ]
 
 REST_FRAMEWORK = {
