@@ -3,6 +3,14 @@ from rest_framework import generics
 from bookstore import serializers, models
 
 
+class PublisherListAPIView(generics.ListAPIView):
+    serializer_class = serializers.PublisherSerializer
+
+    def get_queryset(self):
+        queryset = models.Publisher.objects.all()
+        return queryset
+
+
 class BookListAPIView(generics.ListAPIView):
     serializer_class = serializers.BookSerializer
 

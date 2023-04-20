@@ -3,6 +3,12 @@ from rest_framework import serializers
 from bookstore import models
 
 
+class PublisherSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Publisher
+        fields = ["id", 'name']
+
+
 class BookSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Book
