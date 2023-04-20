@@ -7,3 +7,11 @@ class BookSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Book
         fields = ["id", 'name', 'price', 'publisher']
+
+
+class StoreSerializer(serializers.ModelSerializer):
+    book = BookSerializer(read_only=True, many=True)
+
+    class Meta:
+        model = models.Store
+        fields = ["id", 'name', 'books', "book"]
