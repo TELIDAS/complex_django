@@ -13,7 +13,8 @@ venv
 .env
 # Compiled Python bytecode
 *.py[cod]
-
+media
+deploy/*.env
 # Log files
 *.log
 data-postgres/

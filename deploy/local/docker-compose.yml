@@ -1,0 +1,35 @@
+version: "3.3"
+services:
+
+  complex-server:
+    container_name: complex-server
+    build:
+      context: ../../
+      dockerfile: server.Dockerfile
+    restart: always
+    volumes:
+      - ../../server_static:/server/server_static
+      - ../../server_media:/server/server_media
+    ports:
+      - "6444:6444"
+    env_file:
+      - .env
+
+  complex-nginx:
+    container_name: complex-nginx
+    build:
+      context: ../../
+      dockerfile: nginx.Dockerfile
+      args:
+        NGINX_FILE_PATH: ${NGINX_FILE_PATH}
+        ENV_FILE_PATH: ${ENV_FILE_PATH}
+    restart: always
+    volumes:
+      - ../../server_static:/server_static
+      - ../../server_media:/server_media
+    ports:
+      - "7660:80"
+    env_file:
+      - .env
+    depends_on:
+      - complex-server

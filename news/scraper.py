@@ -31,8 +31,6 @@ class NewsScraper:
     async def parse_links(self, content):
         tree = Selector(text=content)
         urls = tree.xpath(self.NEWS_LINK_XPATH).extract()
-        print(f'url: {urls}')
-        print(f'len_url: {(len(urls))}')
         await self.save_data(urls)
 
     @sync_to_async

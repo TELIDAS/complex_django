@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 from decouple import config
 
@@ -31,6 +32,10 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_PAGINATION_CLASS': 'server.pagination.StandardResultsSetPagination',
 }
+
+CORS_ORIGIN_ALLOW_ALL = False
+CORS_ORIGIN_WHITELIST = ['http://127.0.0.1:3000']
+CSRF_TRUSTED_ORIGINS = ['http://127.0.0.1:6444']
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -94,7 +99,13 @@ USE_L10N = True
 
 USE_TZ = True
 
-STATIC_URL = '/static/'
+STATIC_URL = '/server_static/'
+
+STATIC_ROOT = os.path.join(BASE_DIR, "server_static")
+
+MEDIA_URL = '/server_media/'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, "server_media")
 
 AUTH_USER_MODEL = 'accounts.User'
 
