@@ -29,6 +29,7 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'accounts.authentication.JWTAuthentication'
     ],
+    'DEFAULT_PAGINATION_CLASS': 'server.pagination.StandardResultsSetPagination',
 }
 
 MIDDLEWARE = [
@@ -96,6 +97,13 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 AUTH_USER_MODEL = 'accounts.User'
+
+CUSTOM_JWT = {
+    'ACCESS_TOKEN_MINUTE': config('ACCESS_TOKEN_MINUTE', cast=int),
+    'REFRESH_TOKEN_MINUTE': config('REFRESH_TOKEN_MINUTE', cast=int),
+    'ALGORITHM': config('ALGORITHM'),
+    'TOKEN_PREFIX': 'Bearer'
+}
 
 DEFAULT_HEADERS = {
     'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:109.0) Gecko/20100101 Firefox/109.0',
