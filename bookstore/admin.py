@@ -5,5 +5,11 @@ from . import models
 
 @admin.register(models.Book)
 class BookAdminPanel(ImportExportModelAdmin, admin.ModelAdmin):
-    list_display = ["name", "price", "publisher"]
-    search_fields = ["name", "price", "publisher"]
+    list_display = ["name", "price", "price_status", "publisher", ]
+    search_fields = ["name", "price", "price_status", "publisher", ]
+
+    @admin.display(ordering='price_status')
+    def price_status(self, book):
+        if book.price < 100:
+            return 'Low'
+        return "High"
