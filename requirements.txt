@@ -6,7 +6,6 @@ cssselect==1.2.0
 defusedxml==0.7.1
 diff-match-patch==20200713
 Django==4.2
-django-import-export==3.2.0
 djangorestframework==3.14.0
 et-xmlfile==1.1.0
 h11==0.14.0
