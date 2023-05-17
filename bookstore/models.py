@@ -2,7 +2,7 @@ from django.db import models
 
 
 class Publisher(models.Model):
-    name = models.CharField(max_length=300)
+    name = models.CharField(max_length=300, null=True)
 
     class Meta:
         db_table = 'publisher'

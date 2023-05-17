@@ -16,7 +16,7 @@ class BookListAPIView(generics.ListAPIView):
 
     def get_queryset(self):
         select_related_tables = ['publisher']
-        queryset = models.Book.objects.prefetch_related(*select_related_tables).all().order_by("id")
+        queryset = models.Book.objects.select_related(*select_related_tables).all().order_by("id")
         return queryset
 
 
