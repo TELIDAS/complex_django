@@ -2,12 +2,14 @@ import csv
 import io
 
 from django.contrib import admin
+from django.db.models import Avg
 from django.forms import forms
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.urls import path
 
 from . import models
+from .decorator import query_debugger
 
 
 class CsvImportForm(forms.Form):
@@ -34,8 +36,8 @@ class ExportCsvMixin:
 
 @admin.register(models.Book)
 class BookAdminPanel(admin.ModelAdmin, ExportCsvMixin):
-    list_display = ["name", "price", "price_status", "publisher", ]
-    search_fields = ["name", "price", "price_status", "publisher", ]
+    list_display = ["name", "price", "price_status", "publisher", "avr_price_of_publisher"]
+    search_fields = ["name", "price"]
     actions = ["export_as_csv"]
     change_list_template = "entities/tab_changelist.html"
 
@@ -44,6 +46,15 @@ class BookAdminPanel(admin.ModelAdmin, ExportCsvMixin):
         if book.price < 100:
             return 'Low'
         return "High"
+
+    @query_debugger
+    @admin.display(ordering="Average-Price of Publisher")
+    def avr_price_of_publisher(self, book):
+        print(book.publisher_id)
+        queryset = models.Book.objects.filter(publisher__id=book.publisher_id).annotate(avg_price=Avg("price"))
+        for data in queryset:
+            return data.avg_price
+
 
     def get_urls(self):
         urls = super().get_urls()
