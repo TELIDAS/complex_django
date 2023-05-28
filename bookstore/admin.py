@@ -50,11 +50,9 @@ class BookAdminPanel(admin.ModelAdmin, ExportCsvMixin):
     @query_debugger
     @admin.display(ordering="Average-Price of Publisher")
     def avr_price_of_publisher(self, book):
-        print(book.publisher_id)
         queryset = models.Book.objects.filter(publisher__id=book.publisher_id).annotate(avg_price=Avg("price"))
         for data in queryset:
             return data.avg_price
-
 
     def get_urls(self):
         urls = super().get_urls()
@@ -103,3 +101,6 @@ class BookAdminPanel(admin.ModelAdmin, ExportCsvMixin):
         return render(
             request, "admin/csv_form.html", payload
         )
+
+    def has_add_permission(self, request):
+        return False
